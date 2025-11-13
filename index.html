@@ -4,8 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>English Card Quest</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="game-container">
@@ -16,8 +22,8 @@
         <p class="game-subtitle">Desafía tu conocimiento del inglés</p>
       </div>
       
-      <div style="text-align: center; margin-bottom: 20px;">
-         <div class="shop-sign">SHOP</div>
+      <div class="shop-sign-wrapper">
+         <div class="shop-sign" id="goToShopBtn">SHOP</div>
       </div>
 
       <h2>Selecciona el Modo de Juego</h2>
@@ -25,17 +31,17 @@
         <div class="mode-card" id="singlePlayerBtn">
           <div class="icon-lg">🎮</div>
           <h3>Un Jugador</h3>
-          <p>Juega solo y mejora tus habilidades en inglés</p>
+          <p>Juega solo, gana monedas y mejora tu mazo.</p>
         </div>
         <div class="mode-card" id="challengeBtn">
           <div class="icon-lg">⚔️</div>
           <h3>Modo Desafío (1 vs 1)</h3>
-          <p>Desafía a un amigo o bot en un duelo épico</p>
+          <p>Desafía a un amigo o bot en un duelo épico.</p>
         </div>
         <div class="mode-card" id="multiPlayerBtn">
           <div class="icon-lg">👥</div>
-          <h3>Modo Multijugador (4 Jugadores)</h3>
-          <p>Compite con hasta 3 amigos o bots</p>
+          <h3>Modo Multijugador</h3>
+          <p>Compite con hasta 3 amigos o bots.</p>
         </div>
       </div>
     </div>
@@ -88,11 +94,12 @@
         <h1 class="game-title" id="gameTitleInGame">English Card Quest</h1>
       </div>
       <div class="instructions" id="instructions">
-        Selecciona cartas del tablero para responder preguntas de inglés. Usa tus cartas especiales estratégicamente.
+        Selecciona cartas del tablero para responder. Gana monedas por aciertos y úsalas sabiamente.
       </div>
       <div id="currentPlayerTurn">
         Turno de: <span id="currentPlayerName">Jugador 1</span>
       </div>
+      
       <div class="game-stats">
         <div class="stat-box">
           <div class="stat-label">Ronda</div>
@@ -101,6 +108,10 @@
         <div class="stat-box">
           <div class="stat-label">Puntos</div>
           <div class="stat-value" id="totalPoints">0</div>
+        </div>
+        <div class="stat-box stat-box-coins">
+          <div class="stat-label">Monedas</div>
+          <div class="stat-value"><i class="fa-solid fa-coins"></i> <span id="totalCoins">0</span></div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Aciertos</div>
@@ -111,6 +122,7 @@
           <div class="stat-value" id="incorrectAnswers">0</div>
         </div>
       </div>
+      
       <div id="gameContent">
         <div class="game-content-wrapper">
           <div class="board-section">
@@ -165,10 +177,37 @@
         <button class="btn btn-primary" id="restartBtn">Jugar de Nuevo</button>
       </div>
     </div>
+    
+    <div id="shopScreen">
+      <div class="game-header">
+        <h1 class="game-title">Tienda de Cartas</h1>
+        <p class="game-subtitle">Usa tus monedas para comprar sobres</p>
+      </div>
+
+      <div class="shop-container">
+        <div class="shop-item">
+          <h3>Sobre Clásico</h3>
+          <p>Contiene una carta especial aleatoria.</p>
+          <div class="card-pack">
+            <img src="images/card_pack.png" alt="Sobre de Cartas" />
+          </div>
+          <button class="btn btn-success" id="buyPackBtn">Comprar (<i class="fa-solid fa-coins"></i> 10)</button>
+        </div>
+      </div>
+
+      <div class="shop-actions">
+        <div class="stat-box stat-box-coins">
+          <div class="stat-label">Tus Monedas</div>
+          <div class="stat-value"><i class="fa-solid fa-coins"></i> <span id="shopCoins">0</span></div>
+        </div>
+        <button class="btn btn-secondary" id="backToMenuShopBtn">Volver al Menú</button>
+      </div>
+    </div>
 
   </div> <div class="modal" id="questionModal">
     <div class="modal-content">
-      <div id="questionContent"></div>
+      <div id="questionContent">
+        </div>
     </div>
   </div>
 
