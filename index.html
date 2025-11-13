@@ -180,8 +180,8 @@
     
     <div id="shopScreen">
       <div class="game-header">
-        <h1 class="game-title">Tienda de Cartas</h1>
-        <p class="game-subtitle">Usa tus monedas para comprar sobres</p>
+        <h1 class="game-title" id="shopTitle">Tienda de Cartas</h1>
+        <p class="game-subtitle" id="shopSubtitle">Usa tus monedas para comprar mejoras</p>
       </div>
 
       <div class="shop-container">
@@ -193,6 +193,10 @@
           </div>
           <button class="btn btn-success" id="buyPackBtn">Comprar (<i class="fa-solid fa-coins"></i> 10)</button>
         </div>
+        <div class="shop-item" id="shopCard1">
+          </div>
+        <div class="shop-item" id="shopCard2">
+          </div>
       </div>
 
       <div class="shop-actions">
@@ -201,6 +205,7 @@
           <div class="stat-value"><i class="fa-solid fa-coins"></i> <span id="shopCoins">0</span></div>
         </div>
         <button class="btn btn-secondary" id="backToMenuShopBtn">Volver al Menú</button>
+        <button class="btn btn-primary" id="continueToNextRoundBtn">Siguiente Ronda <i class="fa-solid fa-arrow-right"></i></button>
       </div>
     </div>
 
@@ -208,6 +213,21 @@
     <div class="modal-content">
       <div id="questionContent">
         </div>
+    </div>
+  </div>
+
+  <div class="modal" id="freePackModal">
+    <div class="modal-content text-center">
+      <h2>¡Sobre Gratis!</h2>
+      <p>¡Felicidades! Aquí tienes una carta especial para empezar.</p>
+      <div class="pack-container">
+        <div class="card-pack" id="openFreePack">
+          <img src="images/card_pack.png" alt="Sobre de Cartas" />
+        </div>
+        <div class="player-card" id="revealedCard" style="display: none;">
+          </div>
+      </div>
+      <button class="btn btn-primary" id="continueFromPackBtn" style="display: none;">Comenzar Juego</button>
     </div>
   </div>
 
