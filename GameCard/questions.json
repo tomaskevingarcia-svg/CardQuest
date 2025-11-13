@@ -1,0 +1,53 @@
+{
+  "easy": [
+    { "question": "¿Cuál es el pasado de 'go' (ir)?", "answers": ["went", "goed", "gone", "going"], "correct": 0 },
+    { "question": "¿Cómo se dice 'hola' en inglés?", "answers": ["hello", "goodbye", "thanks", "please"], "correct": 0 },
+    { "question": "¿De qué color es el cielo?", "answers": ["blue", "red", "green", "yellow"], "correct": 0 },
+    { "question": "Completa: I ___ a student.", "answers": ["am", "is", "are", "be"], "correct": 0 },
+    { "question": "¿Cuál es el opuesto de 'hot' (caliente)?", "answers": ["cold", "warm", "cool", "freezing"], "correct": 0 },
+    { "question": "¿Cuántos días tiene una semana en inglés?", "answers": ["seven", "six", "eight", "five"], "correct": 0 },
+    { "question": "¿Cómo se dice 'gato' en inglés?", "answers": ["cat", "dog", "bird", "fish"], "correct": 0 },
+    { "question": "Completa: She ___ happy.", "answers": ["is", "am", "are", "be"], "correct": 0 },
+    { "question": "¿Cómo se dice 'perro' en inglés?", "answers": ["dog", "cat", "bird", "fish"], "correct": 0 },
+    { "question": "¿Cuál es el plural de 'book'?", "answers": ["books", "bookes", "book", "bookies"], "correct": 0 },
+    { "question": "¿Cómo se dice 'casa' en inglés?", "answers": ["house", "home", "building", "place"], "correct": 0 },
+    { "question": "¿Cuál es el opuesto de 'big' (grande)?", "answers": ["small", "tiny", "huge", "large"], "correct": 0 },
+    { "question": "Completa: They ___ students.", "answers": ["are", "is", "am", "be"], "correct": 0 },
+    { "question": "¿Cómo se dice 'agua' en inglés?", "answers": ["water", "juice", "milk", "soda"], "correct": 0 },
+    { "question": "¿Cuál es el pasado de 'eat' (comer)?", "answers": ["ate", "eated", "eaten", "eating"], "correct": 0 }
+  ],
+  "medium": [
+    { "question": "¿Cuál es correcto: 'He don't like' o 'He doesn't like'?", "answers": ["He doesn't like", "He don't like", "Ambos", "Ninguno"], "correct": 0 },
+    { "question": "¿Cuál es el plural de 'child' (niño)?", "answers": ["children", "childs", "childes", "child"], "correct": 0 },
+    { "question": "Elige lo correcto: 'I have ___ apple.'", "answers": ["an", "a", "the", "some"], "correct": 0 },
+    { "question": "¿Qué significa 'although'?", "answers": ["aunque", "porque", "por lo tanto", "sin embargo"], "correct": 0 },
+    { "question": "Participio pasado de 'eat' (comer):", "answers": ["eaten", "ate", "eated", "eating"], "correct": 0 },
+    { "question": "¿Cuál es un sinónimo de 'happy'?", "answers": ["joyful", "sad", "angry", "tired"], "correct": 0 },
+    { "question": "Completa: If I ___ rich, I would travel.", "answers": ["were", "was", "am", "be"], "correct": 0 },
+    { "question": "¿Cuál es el comparativo de 'good'?", "answers": ["better", "gooder", "more good", "best"], "correct": 0 },
+    { "question": "¿Qué significa 'actually' en español?", "answers": ["en realidad", "actualmente", "actual", "acción"], "correct": 0 },
+    { "question": "¿Cuál es el pasado de 'think'?", "answers": ["thought", "thinked", "thinks", "thinking"], "correct": 0 },
+    { "question": "¿Cuál es el plural de 'mouse' (ratón)?", "answers": ["mice", "mouses", "mouse", "mices"], "correct": 0 },
+    { "question": "¿Qué significa 'embarrassed'?", "answers": ["avergonzado", "embarazada", "emocionado", "enojado"], "correct": 0 },
+    { "question": "Completa: She has ___ working here for 5 years.", "answers": ["been", "being", "be", "was"], "correct": 0 },
+    { "question": "¿Cuál es el pasado de 'bring'?", "answers": ["brought", "bringed", "brang", "brung"], "correct": 0 },
+    { "question": "¿Qué significa 'advice' en español?", "answers": ["consejo", "aviso", "advertencia", "noticia"], "correct": 0 }
+  ],
+  "hard": [
+    { "question": "¿Qué oración usa el subjuntivo correctamente?", "answers": ["I suggest that he study harder", "I suggest that he studies harder", "I suggest he to study harder", "I suggest him study harder"], "correct": 0 },
+    { "question": "Identifica el gerundio: 'Swimming is fun.'", "answers": ["Swimming", "is", "fun", "Ninguno"], "correct": 0 },
+    { "question": "¿Qué es un 'dangling modifier'?", "answers": ["Un modificador sin sujeto claro", "Una decoración colgante", "Un tipo de verbo", "Un adjetivo"], "correct": 0 },
+    { "question": "Elige lo correcto: 'Neither John nor his friends ___ coming.'", "answers": ["are", "is", "was", "were"], "correct": 0 },
+    { "question": "¿Cuál es la función de 'whom' en: 'To whom it may concern'?", "answers": ["Objeto de preposición", "Sujeto", "Posesivo", "Verbo"], "correct": 0 },
+    { "question": "Identifica la aposición: 'My friend, a doctor, helped me.'", "answers": ["a doctor", "My friend", "helped me", "Ninguno"], "correct": 0 },
+    { "question": "¿Cuál usa la voz pasiva correctamente?", "answers": ["The book was written by her", "The book written by her", "Her wrote the book", "The book writes by her"], "correct": 0 },
+    { "question": "¿Qué es un 'split infinitive'?", "answers": ["Adverbio entre 'to' y verbo", "Dos verbos juntos", "Una oración rota", "Un verbo compuesto"], "correct": 0 },
+    { "question": "¿Cuál es el superlativo de 'bad'?", "answers": ["worst", "baddest", "most bad", "worse"], "correct": 0 },
+    { "question": "¿Qué tiempo verbal es 'had been working'?", "answers": ["Past perfect continuous", "Present perfect", "Past simple", "Future perfect"], "correct": 0 },
+    { "question": "¿Cuál usa 'lay' correctamente?", "answers": ["I will lay the book on the table", "I will lay down to sleep", "I am laying in bed", "Yesterday I lay the book down"], "correct": 0 },
+    { "question": "Identifica el error: 'Between you and I, this is wrong.'", "answers": ["Debe ser 'between you and me'", "No hay error", "Falta una coma", "Debe ser 'among'"], "correct": 0 },
+    { "question": "¿Qué es un 'restrictive clause'?", "answers": ["Cláusula esencial sin comas", "Cláusula con comas", "Cláusula restrictiva", "Cláusula opcional"], "correct": 0 },
+    { "question": "¿Cuál es correcto con 'fewer' vs 'less'?", "answers": ["Fewer items, less water", "Less items, fewer water", "Ambos intercambiables", "Depende del contexto"], "correct": 0 },
+    { "question": "¿Qué es 'subjunctive mood' en: 'I wish I were rich'?", "answers": ["Expresa deseo irreal", "Tiempo pasado", "Condicional", "Imperativo"], "correct": 0 }
+  ]
+}
