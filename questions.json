@@ -41,7 +41,7 @@
     { "question": "¿Cuál es la función de 'whom' en: 'To whom it may concern'?", "answers": ["Objeto de preposición", "Sujeto", "Posesivo", "Verbo"], "correct": 0 },
     { "question": "Identifica la aposición: 'My friend, a doctor, helped me.'", "answers": ["a doctor", "My friend", "helped me", "Ninguno"], "correct": 0 },
     { "question": "¿Cuál usa la voz pasiva correctamente?", "answers": ["The book was written by her", "The book written by her", "Her wrote the book", "The book writes by her"], "correct": 0 },
-    { "question": "¿Qué es un 'split infinitive'?", "answers": ["Adverbio entre 'to' y verbo", "Dos verbos juntos", "Una oración rota", "Un verbo compuesto"], "correct": 0 },
+    { "question": "¿Qué es un 'split infinitive'?", "answers": ["Adverbio entre 'to' y verbo", "Dos verbos juntos", "Una oración rota", "Un verbo compuesto"], "correct":0 },
     { "question": "¿Cuál es el superlativo de 'bad'?", "answers": ["worst", "baddest", "most bad", "worse"], "correct": 0 },
     { "question": "¿Qué tiempo verbal es 'had been working'?", "answers": ["Past perfect continuous", "Present perfect", "Past simple", "Future perfect"], "correct": 0 },
     { "question": "¿Cuál usa 'lay' correctamente?", "answers": ["I will lay the book on the table", "I will lay down to sleep", "I am laying in bed", "Yesterday I lay the book down"], "correct": 0 },

@@ -6,7 +6,7 @@ const REROLL_COST = 2;
 const REVEAL_COST = 5;
 const PACK_PRICE = 10;
 const SINGLE_CARD_PRICE = 7;
-const TRADE_COST_POINTS = 50;
+const TRADE_COST_POINTS = 50; // Costo en PUNTOS para la carta Intercambio
 
 const defaultConfig = {
   game_title: "English Card Quest",
@@ -46,21 +46,39 @@ let gameState = {
 // --- CARGA INICIAL Y EVENT LISTENERS ---
 
 document.addEventListener('DOMContentLoaded', () => {
+  // No ocultar la pantalla de carga, ya está visible por defecto
+  
   fetch('questions.json')
     .then(response => {
-      if (!response.ok) throw new Error('No se pudo cargar questions.json');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}. Asegúrate de que 'questions.json' existe.`);
+      }
       return response.json();
     })
     .then(data => {
       questions = data;
-      // FIX: Ahora que las preguntas están, ATACAMOS los listeners.
-      initializeEventListeners(); 
+      // Las preguntas cargaron, activar los botones
+      initializeEventListeners();
+      // Ocultar la pantalla de carga
+      hideLoadingScreen();
     })
     .catch(error => {
       console.error("Error fatal: No se pudo cargar 'questions.json'.", error);
-      alert("Error: No se pudo cargar el archivo 'questions.json'. Asegúrate de que el archivo existe en la misma carpeta.");
+      // Mostrar error en la pantalla de carga
+      const loadingScreen = document.getElementById('loadingScreen');
+      loadingScreen.innerHTML = `<p style="color:red; max-width: 300px; text-align: center;"><b>Error:</b> No se pudo cargar 'questions.json'.<br/>Asegúrate de que el archivo existe en la misma carpeta que 'index.html'.</p>`;
     });
 });
+
+function hideLoadingScreen() {
+  document.getElementById('loadingScreen').style.opacity = '0';
+  document.getElementById('game-container').style.display = 'flex'; // Mostrar el contenedor del juego
+  // Quitar la pantalla de carga del DOM después de la transición
+  setTimeout(() => {
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Permitir scroll
+  }, 500);
+}
 
 function initializeEventListeners() {
   // Modo
@@ -90,7 +108,9 @@ function initializeEventListeners() {
   document.getElementById('openFreePack').addEventListener('click', openFreePack);
   document.getElementById('continueFromPackBtn').addEventListener('click', () => {
     document.getElementById('freePackModal').classList.remove('active');
-    initializeGame(false); // Inicia el juego DE VERDAD
+    // El sobre gratis ahora aparece DESPUÉS de la ronda 1
+    // Este botón ahora te lleva a la tienda
+    showShop(true); 
   });
 
   // Checkboxes de Bot
@@ -132,18 +152,8 @@ function startSinglePlayer() {
   gameMode = 'single';
   players = [];
   gameState.maxRounds = 10;
-  // REGLA: Mostrar sobre gratis primero
-  showFreePackModal();
-}
-
-function showFreePackModal() {
-  const modal = document.getElementById('freePackModal');
-  modal.classList.add('active');
-  // Resetear el modal
-  document.getElementById('openFreePack').style.display = 'block';
-  document.getElementById('openFreePack').style.animation = 'pulsePack 1.5s infinite';
-  document.getElementById('revealedCard').style.display = 'none';
-  document.getElementById('continueFromPackBtn').style.display = 'none';
+  // REGLA: Ya no muestra el sobre, solo inicia el juego
+  initializeGame(false);
 }
 
 function openFreePack() {
@@ -152,7 +162,7 @@ function openFreePack() {
   
   // 1. Generar la carta (true = Básico, sin "Intercambio")
   const newCard = generateRandomCard(true); 
-  gameState.playerCards = [newCard]; // El mazo ahora tiene esta carta
+  gameState.playerCards.push(newCard); // Añadirla al mazo
   
   // 2. Mostrar la carta en el modal
   revealedCardElement.innerHTML = renderCardHTML(newCard);
@@ -167,6 +177,9 @@ function openFreePack() {
   
   // 4. Mostrar botón de continuar
   document.getElementById('continueFromPackBtn').style.display = 'inline-block';
+  
+  // 5. Actualizar el mazo en el fondo
+  renderPlayerDeck();
 }
 
 
@@ -215,8 +228,7 @@ function startConfiguredGame() {
   }
   
   currentPlayerIndex = 0;
-  // Iniciar juego (sin sobre gratis para multi)
-  initializeGame(false); 
+  initializeGame(false); // Iniciar juego (sin sobre gratis para multi)
 
   if (getCurrentPlayer().isBot) {
     setTimeout(playBotTurn, 1500);
@@ -230,26 +242,19 @@ function getCurrentPlayer() {
   }
   return null;
 }
-function nextPlayer() {
-  if (gameMode !== 'single') {
-    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-    updateCurrentPlayerDisplay();
-    if (getCurrentPlayer().isBot) {
-      setTimeout(playBotTurn, 1500);
-    }
-  }
-}
-function playBotTurn() { /* ... Lógica del Bot ... */ }
+function nextPlayer() { /* ... Lógica de siguiente jugador ... */ }
+function playBotTurn() { /* ... Lógica del Bot (sin cambios) ... */ }
 function updateCurrentPlayerDisplay() { /* ... Lógica de actualizar UI ... */ }
 function saveCurrentPlayerState() { /* ... Lógica de guardar estado ... */ }
 
 // --- LÓGICA PRINCIPAL DEL JUEGO ---
 
-function initializeGame(showFreePack = true) {
-  // REGLA: Sobre gratis al inicio de Un Jugador
-  if (showFreePack && gameMode === 'single') {
-    showFreePackModal();
-    return; // No continuar hasta que el modal se cierre
+function initializeGame(showFreePack) {
+  // Esta función es llamada por el botón del modal del sobre,
+  // pero solo si showFreePack es false.
+  if (showFreePack) {
+    // Ya no se llama al inicio.
+    return;
   }
   
   showScreen('game');
@@ -273,15 +278,15 @@ function initializeGame(showFreePack = true) {
   if (gameMode === 'single') {
     document.getElementById('currentPlayerTurn').style.display = 'none';
     gameState.maxRounds = 10;
-    // El mazo ya tiene 1 carta del sobre gratis
+    // REGLA: El mazo se recibe del sobre gratis
     if (gameState.playerCards.length === 0) {
-      gameState.playerCards = generateInitialCards();
+       // Si se saltó el sobre (ej. debug), dar cartas
+       gameState.playerCards = generateInitialCards();
     }
     gameState.totalCoins = 5; // Regla: 5 monedas al inicio
   } else {
     document.getElementById('currentPlayerTurn').style.display = 'block';
     gameState.totalCoins = 5; // Regla: 5 monedas al inicio (compartidas)
-    // Cada jugador en multi recibe un mazo inicial
     players.forEach(p => p.cards = generateInitialCards());
     updateCurrentPlayerDisplay();
   }
@@ -334,7 +339,6 @@ function renderBoard() {
   if (gameMode !== 'single') {
     revealedIndices = player ? player.peekingCards : [];
   } else {
-    // Lupa (Magnify) ahora resetea cada ronda
     if (gameState.peekingCardIndex !== null) revealedIndices.push(gameState.peekingCardIndex);
     if (gameState.magnifyRevealedCards) revealedIndices.push(...gameState.magnifyRevealedCards);
   }
@@ -407,15 +411,14 @@ function generateRandomCard(basicOnly = false) {
     { name: "Bonus", icon: "⭐", description: "Gana 50 puntos extra", type: "bonus" },
     { name: "Joker", icon: "🃏", description: "Responde automáticamente correcto", type: "wildcard" },
     { name: "Cambiar", icon: "🔄", description: "Cambia la pregunta o baja dificultad", type: "change" },
-    { name: "Lupa", icon: "🔍", description: "Revela 4 cartas aleatorias", type: "magnify" },
+    { name: "Lupa", icon: "🔍", description: "Revela 4 cartas aleatorias (1 ronda)", type: "magnify" },
     { name: "Turno Extra", icon: "⚡", description: "Juega una carta adicional", type: "extraTurn" },
     { name: "Mega Recompensa", icon: "🎁", description: "Gana 4 cartas al responder bien", type: "megaReward" },
-    { name: "Duplicador", icon: "💎", description: "Duplica puntos de la siguiente pregunta", type: "doublePoints" },
+    { name: "Duplicador", icon: "💎", description: "Duplica puntos (1 intento)", type: "doublePoints" },
     { name: "Respuesta", icon: "💡", description: "Muestra la respuesta correcta", type: "answer" }
   ];
   
-  // REGLA: Intercambio es una carta especial
-  const tradeCard = { name: "Intercambio", icon: "💰", description: `-${TRADE_COST_POINTS} Puntos por 2 cartas y 5 monedas`, type: "trade" };
+  const tradeCard = { name: "Intercambio", icon: "💰", description: `-${TRADE_COST_POINTS} Pts por 2 cartas y 5 monedas`, type: "trade" };
 
   let cardTypes = [...baseCardTypes];
   
@@ -587,7 +590,7 @@ function handleBoardCardClick(index) {
         renderBoard();
         break;
       default:
-        cardUsed = false; // No era una carta de objetivo
+        cardUsed = false; 
     }
 
     if (cardUsed) {
@@ -763,7 +766,8 @@ function revealAnswer() {
 
 function showShop(isEndOfRound) {
   if (gameMode !== 'single') {
-    showToast("La tienda solo está disponible en modo 'Un Jugador'.");
+    // No mostrar tienda en multijugador
+    startNextRound(); 
     return;
   }
   
@@ -798,6 +802,7 @@ function showShop(isEndOfRound) {
     document.getElementById('backToMenuShopBtn').style.display = 'none';
     document.getElementById('continueToNextRoundBtn').style.display = 'block';
   } else {
+    // Ya no se puede acceder desde el menú, pero dejamos la lógica por si acaso
     document.getElementById('shopTitle').textContent = "Tienda de Cartas";
     document.getElementById('shopSubtitle').textContent = "Usa tus monedas para comprar mejoras";
     document.getElementById('backToMenuShopBtn').style.display = 'block';
@@ -879,9 +884,10 @@ function cancelAction() {
 
 function checkAutoEndTurn() {
   const availableCards = gameState.boardCards.filter(c => !c.removed).length;
-  const canPlayMore = (gameMode === 'single') ? gameState.cardsPlayedThisTurn < 2 : false;
+  // Solo 1 jugada en multijugador
+  const maxPlays = (gameMode === 'single') ? 2 : 1;
 
-  if (availableCards === 0 || !canPlayMore) {
+  if (availableCards === 0 || gameState.cardsPlayedThisTurn >= maxPlays) {
     setTimeout(() => endTurn(), 500);
   }
 }
@@ -894,10 +900,28 @@ function endTurn() {
   if (gameMode !== 'single') {
     // Lógica multijugador...
     nextPlayer();
-    // ...
+    gameState.cardsPlayedThisTurn = 0;
+    
+    if (currentPlayerIndex === 0) { // Ronda completada
+      if (gameState.currentRound >= gameState.maxRounds) {
+        endGame(); return;
+      }
+      gameState.currentRound++;
+      players.forEach(p => { p.boardCards = []; p.peekingCards = []; });
+      initializeBoard();
+      // ...
+    }
+    
   } else {
-    // Lógica Un Jugador: MOSTRAR TIENDA
-    showShop(true); // true = es fin de ronda
+    // Lógica Un Jugador
+    
+    // REGLA: Sobre gratis después de R1
+    if (gameState.currentRound === 1) {
+      showFreePackModal();
+    } else {
+      // Ir a la tienda normal
+      showShop(true); // true = es fin de ronda
+    }
   }
 }
 
@@ -933,7 +957,7 @@ function showToast(message) {
     background: #333; color: white;
     padding: 15px 25px; border-radius: 12px;
     font-weight: 600; font-family: 'Montserrat', sans-serif;
-    z-index: 2000; animation: slideInUp 0.3s ease-out;
+    z-index: 10002; animation: slideInUp 0.3s ease-out;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   `;
   const styleSheet = document.head.querySelector('#toast-animations');
@@ -1009,22 +1033,24 @@ function createErrorParticles(sourceElement) {
     const centerY = rect.top + (rect.height / 2);
 
     for (let i = 0; i < 12; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        particle.style.position = 'fixed';
-        particle.style.left = `${centerX}px`;
-        particle.style.top = `${centerY}px`;
-        particle.style.fontSize = `${(Math.random() * 8 + 16)}px`;
-        particle.style.zIndex = '9999';
-        const angle = (i / 12) * Math.PI * 2;
-        const distance = Math.random() * 80 + 40;
-        const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance;
-        particle.style.setProperty('--tx', `${tx}px`);
-        particle.style.setProperty('--ty', `${ty}px`);
-        particle.style.animation = 'confettiExplosion 0.7s ease-out forwards';
-        document.body.appendChild(particle);
-        setTimeout(() => particle.remove(), 700);
+        setTimeout(() => {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            particle.style.position = 'fixed';
+            particle.style.left = `${centerX}px`;
+            particle.style.top = `${centerY}px`;
+            particle.style.fontSize = `${(Math.random() * 8 + 16)}px`;
+            particle.style.zIndex = '9999';
+            const angle = (i / 12) * Math.PI * 2;
+            const distance = Math.random() * 80 + 40;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance;
+            particle.style.setProperty('--tx', `${tx}px`);
+            particle.style.setProperty('--ty', `${ty}px`);
+            particle.style.animation = 'confettiExplosion 0.7s ease-out forwards';
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 700);
+        }, i * 30);
     }
 }

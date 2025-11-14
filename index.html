@@ -7,18 +7,24 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <div id="loadingScreen">
+    <div class="spinner"></div>
+    <p>Cargando Juego...</p>
+  </div>
+
   <div class="game-container">
     
     <div id="modeSelection">
       <div class="game-header">
-        <h1 class="game-title" id="gameTitle">🎴 English Card Quest</h1>
+        <h1 class="game-title" id="gameTitle">d; English Card Quest</h1>
         <p class="game-subtitle">Desafía tu conocimiento del inglés</p>
       </div>
       
@@ -122,7 +128,7 @@
       <div id="gameContent">
         <div class="game-content-wrapper">
           <div class="board-section">
-            <div class="section-title">🎴 Tablero de Preguntas</div>
+            <div class="section-title">d; Tablero de Preguntas</div>
             <div class="board-grid" id="boardGrid"></div>
           </div>
           <div class="sidebar-section">
@@ -200,7 +206,6 @@
           <div class="stat-label">Tus Monedas</div>
           <div class="stat-value"><i class="fa-solid fa-coins"></i> <span id="shopCoins">0</span></div>
         </div>
-        <button class="btn btn-secondary" id="backToMenuShopBtn">Volver al Menú</button>
         <button class="btn btn-primary" id="continueToNextRoundBtn">Siguiente Ronda <i class="fa-solid fa-arrow-right"></i></button>
       </div>
     </div>
@@ -214,8 +219,8 @@
 
   <div class="modal" id="freePackModal">
     <div class="modal-content text-center">
-      <h2>¡Sobre Gratis!</h2>
-      <p>¡Felicidades! Aquí tienes una carta especial para empezar.</p>
+      <h2>¡Recompensa de Ronda 1!</h2>
+      <p>¡Buen trabajo! Aquí tienes un sobre gratis por completar tu primera ronda.</p>
       <div class="pack-container">
         <div class="card-pack" id="openFreePack">
           <img src="images/card_pack.png" alt="Sobre de Cartas" />
@@ -223,7 +228,7 @@
         <div class="player-card" id="revealedCard" style="display: none;">
           </div>
       </div>
-      <button class="btn btn-primary" id="continueFromPackBtn" style="display: none;">Comenzar Juego</button>
+      <button class="btn btn-primary" id="continueFromPackBtn" style="display: none;">Ir a la Tienda</button>
     </div>
   </div>
 
