@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>English Card Quest</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    
+    <div id="modeSelection">
+      <div class="game-header">
+        <h1 class="game-title" id="gameTitle">🎴 English Card Quest</h1>
+        <p class="game-subtitle">Desafía tu conocimiento del inglés</p>
+      </div>
+      
+      <h2 class="select-mode-title">Selecciona el Modo de Juego</h2>
+      <div class="mode-selection-wrapper">
+        <div class="mode-card" id="singlePlayerBtn">
+          <div class="icon-lg">🎮</div>
+          <h3>Un Jugador</h3>
+          <p>Juega solo, gana monedas y mejora tu mazo.</p>
+        </div>
+        <div class="mode-card" id="challengeBtn">
+          <div class="icon-lg">⚔️</div>
+          <h3>Modo Desafío (1 vs 1)</h3>
+          <p>Desafía a un amigo o bot en un duelo épico.</p>
+        </div>
+        <div class="mode-card" id="multiPlayerBtn">
+          <div class="icon-lg">👥</div>
+          <h3>Modo Multijugador</h3>
+          <p>Compite con hasta 3 amigos o bots.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="playerNamesScreen">
+      <div class="game-header">
+        <h1 class="game-title" id="configTitle">Configuración</h1>
+      </div>
+      <div class="config-wrapper">
+        <h3>Configura tu Partida</h3>
+        <div class="config-form">
+          <div id="roundsConfig">
+            <label for="maxRounds">Número de Rondas (1-40):</label>
+            <input type="number" id="maxRounds" min="1" max="40" value="10">
+          </div>
+          <div id="botDifficultyConfig">
+            <label for="botDifficulty">Dificultad de Bots:</label>
+            <select id="botDifficulty">
+              <option value="easy">Fácil (40% precisión)</option>
+              <option value="medium" selected>Medio (60% precisión)</option>
+              <option value="hard">Difícil (80% precisión)</option>
+            </select>
+          </div>
+          <div id="player1Config">
+            <label for="player1Name">Jugador 1:</label>
+            <input type="text" id="player1Name" placeholder="Nombre del Jugador 1">
+          </div>
+          <div id="player2Config">
+            <label class="inline-label" for="player2Bot"> Jugador 2: <input type="checkbox" id="player2Bot"> <span>Bot</span> </label>
+            <input type="text" id="player2Name" placeholder="Nombre del Jugador 2">
+          </div>
+          <div id="player3Config">
+            <label class="inline-label" for="player3Bot"> Jugador 3: <input type="checkbox" id="player3Bot"> <span>Bot</span> </label>
+            <input type="text" id="player3Name" placeholder="Nombre del Jugador 3">
+          </div>
+          <div id="player4Config">
+            <label class="inline-label" for="player4Bot"> Jugador 4: <input type="checkbox" id="player4Bot"> <span>Bot</span> </label>
+            <input type="text" id="player4Name" placeholder="Nombre del Jugador 4">
+          </div>
+          <div class="config-buttons">
+            <button class="btn btn-secondary" id="backToModeBtn">Volver</button>
+            <button class="btn btn-success" id="startGameBtn">Comenzar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="gameScreen">
+      <div class="game-header">
+        <h1 class="game-title" id="gameTitleInGame">English Card Quest</h1>
+      </div>
+      <div class="instructions" id="instructions">
+        Selecciona cartas del tablero para responder. Gana monedas por aciertos y úsalas sabiamente.
+      </div>
+      <div id="currentPlayerTurn">
+        Turno de: <span id="currentPlayerName">Jugador 1</span>
+      </div>
+      
+      <div class="game-stats">
+        <div class="stat-box">
+          <div class="stat-label">Ronda</div>
+          <div class="stat-value" id="currentRound">1</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Puntos</div>
+          <div class="stat-value" id="totalPoints">0</div>
+        </div>
+        <div class="stat-box stat-box-coins">
+          <div class="stat-label">Monedas</div>
+          <div class="stat-value"><i class="fa-solid fa-coins"></i> <span id="totalCoins">0</span></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Aciertos</div>
+          <div class="stat-value" id="correctAnswers">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Errores</div>
+          <div class="stat-value" id="incorrectAnswers">0</div>
+        </div>
+      </div>
+      
+      <div id="gameContent">
+        <div class="game-content-wrapper">
+          <div class="board-section">
+            <div class="section-title">🎴 Tablero de Preguntas</div>
+            <div class="board-grid" id="boardGrid"></div>
+          </div>
+          <div class="sidebar-section">
+            <div>
+              <div class="section-title">🃏 Cartas Especiales</div>
+              <div class="player-deck" id="playerDeck"></div>
+            </div>
+            <div class="turn-controls">
+              <div id="turnInfo">
+                Cartas jugadas: <span id="cardsPlayed">0</span>/2
+              </div>
+              <div class="action-buttons">
+                <button class="btn btn-success" id="endTurnBtn">Terminar Turno</button>
+                <button class="btn btn-secondary" id="cancelActionBtn">Cancelar Acción</button>
+              </div>
+              <div class="exit-menu-btn-wrapper">
+                <button class="btn btn-secondary" id="exitToMenuBtn">🏠 Salir al Menú</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="gameOverScreen">
+      <div class="game-over">
+        <h2>🎉 ¡Juego Terminado! 🎉</h2>
+        <div id="singlePlayerResults">
+          <div class="final-stats">
+            <div class="final-stat">
+              <div class="final-stat-label">Puntos Totales</div>
+              <div class="final-stat-value" id="finalPoints">0</div>
+            </div>
+            <div class="final-stat">
+              <div class="final-stat-label">Aciertos</div>
+              <div class="final-stat-value" id="finalCorrect">0</div>
+            </div>
+            <div class="final-stat">
+              <div class="final-stat-label">Precisión</div>
+              <div class="final-stat-value" id="finalAccuracy">0%</div>
+            </div>
+          </div>
+        </div>
+        <div id="multiPlayerResults">
+          <h3>🏆 Ranking Final</h3>
+          <div id="playerRanking"></div>
+        </div>
+        <button class="btn btn-primary" id="restartBtn">Jugar de Nuevo</button>
+      </div>
+    </div>
+    
+    <div id="shopScreen">
+      <div class="game-header">
+        <h1 class="game-title" id="shopTitle">Tienda de Cartas</h1>
+        <p class="game-subtitle" id="shopSubtitle">Usa tus monedas para comprar mejoras</p>
+      </div>
+
+      <div class="shop-container">
+        <div class="shop-item">
+          <h3>Sobre Clásico</h3>
+          <p>Contiene una carta especial aleatoria.</p>
+          <div class="card-pack">
+            <img src="images/card_pack.png" alt="Sobre de Cartas" />
+          </div>
+          <button class="btn btn-success" id="buyPackBtn">Comprar (<i class="fa-solid fa-coins"></i> 10)</button>
+        </div>
+        <div class="shop-item" id="shopCard1">
+          </div>
+        <div class="shop-item" id="shopCard2">
+          </div>
+      </div>
+
+      <div class="shop-actions">
+        <div class="stat-box stat-box-coins">
+          <div class="stat-label">Tus Monedas</div>
+          <div class="stat-value"><i class="fa-solid fa-coins"></i> <span id="shopCoins">0</span></div>
+        </div>
+        <button class="btn btn-secondary" id="backToMenuShopBtn">Volver al Menú</button>
+        <button class="btn btn-primary" id="continueToNextRoundBtn">Siguiente Ronda <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+  </div> <div class="modal" id="questionModal">
+    <div class="modal-content">
+      <div id="questionContent">
+        </div>
+    </div>
+  </div>
+
+  <div class="modal" id="freePackModal">
+    <div class="modal-content text-center">
+      <h2>¡Sobre Gratis!</h2>
+      <p>¡Felicidades! Aquí tienes una carta especial para empezar.</p>
+      <div class="pack-container">
+        <div class="card-pack" id="openFreePack">
+          <img src="images/card_pack.png" alt="Sobre de Cartas" />
+        </div>
+        <div class="player-card" id="revealedCard" style="display: none;">
+          </div>
+      </div>
+      <button class="btn btn-primary" id="continueFromPackBtn" style="display: none;">Comenzar Juego</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
